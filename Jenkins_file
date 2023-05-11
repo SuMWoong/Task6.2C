@@ -43,7 +43,7 @@ pipeline{
                 echo "Checkmarx is used to scan the security on this code"
             }
             post{
-            `   success {
+                success {
                     mail to:"sumyatwin51520@gmail.com",
                     subject:"Security scan status: ${currentBuild.result}",
                     body: "The security scan stage has completed. Status: ${currentBuild.result}"
