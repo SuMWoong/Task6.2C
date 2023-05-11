@@ -10,34 +10,66 @@ pipeline{
             steps{
                 echo "fetch the source code from $DIRECTORY_PATH"
                 echo "compile the code and generate any necessary artifacts"
+                echo "code built with a built automation tool called Maven."
             }
         }
-        stage('Test'){
+        stage('Unit and Integration Tests'){
             steps{
                 echo "unit tests"
                 echo "integration tests"
+                echo "Maven was used as automation tool for this"
+            }
+            post {
+                success {
+                    mail to:"sumyatwin51520@gmail.com",
+                    subject:"Test status: ${currentBuild.result}",
+                    body: "The test stage has completed. Status: ${currentBuild.result}"
+                }  
+                failure {
+                    mail to:"sumyatwin51520@gmail.com",
+                    subject:"Test status: ${currentBuild.result}",
+                    body: "The test stage has completed. Status: ${currentBuild.result}"
+                } 
             }
         }
-        stage('Code Quality Check'){
+        stage('Code Analysis'){
             steps{
                 echo "check the quality of the code"
+                echo "SonarQube was the tool for this"
             }
         }
-        stage('Deploy'){
+        stage('Security Scan'){
             steps{
-                echo "Deploymenet started and completed!"
+                echo "Checkmarx is used to scan the security on this code"
+            }
+            post{
+            `   success {
+                    mail to:"sumyatwin51520@gmail.com",
+                    subject:"Security scan status: ${currentBuild.result}",
+                    body: "The security scan stage has completed. Status: ${currentBuild.result}"
+                }
+                failure {
+                    mail to:"sumyatwin51520@gmail.com",
+                    subject:"Security scan status: ${currentBuild.result}",
+                    body: "The security scan stage has completed. Status: ${currentBuild.result}"
+                }
             }
         }
-        stage('Approvall'){
+        stage('Deploy to staging'){
             steps{
-                echo 'Starting sleep...'
-                sleep time: 30, unit: 'SECONDS'
-                echo 'Finished sleep.'
+                echo "Deploy the application to a production server (e.g.,AWS EC2 instance) in Jenkins!"
+            }
+        }
+        stage('Integration Tests on Staging'){
+            steps{
+                echo 'run integration tests on the staging environment to ensure the application functions as expected in a production-like
+environment.'
             }
         }
         stage('Deploy to production'){
             steps{
                 echo 'deploy the code to $PRODUCTION_ENVIRONMENT'
+                echo 'deploy the application to a production server (e.g.,AWS EC2 instance).'
             }
             
         }
