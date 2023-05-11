@@ -1,0 +1,45 @@
+pipeline{
+    agent any
+    environment {
+         DIRECTORY_PATH = "C:/Users/Dell/AppData/Local/Jenkins/.jenkins/jobs/my_first_job"
+         TESTING_ENVIRONMENT = "jenkins"
+         PRODUCTION_ENVIRONMENT = "Su"
+    }
+    stages{
+        stage('Build'){
+            steps{
+                echo "fetch the source code from $DIRECTORY_PATH"
+                echo "compile the code and generate any necessary artifacts"
+            }
+        }
+        stage('Test'){
+            steps{
+                echo "unit tests"
+                echo "integration tests"
+            }
+        }
+        stage('Code Quality Check'){
+            steps{
+                echo "check the quality of the code"
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo "Deploymenet started and completed!"
+            }
+        }
+        stage('Approvall'){
+            steps{
+                echo 'Starting sleep...'
+                sleep time: 30, unit: 'SECONDS'
+                echo 'Finished sleep.'
+            }
+        }
+        stage('Deploy to production'){
+            steps{
+                echo 'deploy the code to $PRODUCTION_ENVIRONMENT'
+            }
+            
+        }
+    } 
+}
